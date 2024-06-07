@@ -1,66 +1,130 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Konsep Aplikasi Marketplace SecondBook (MVP)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 1. Deskripsi Umum
+Aplikasi marketplace ini adalah platform online di mana berbagai pemilik toko dapat mendaftar dan menjual buku kepada pelanggan. Admin memiliki kontrol penuh untuk mengelola pengguna, produk, dan transaksi.
 
-## About Laravel
+## 2. Peran Pengguna
+### 1. Admin
+- Mengelola pengguna (pemilik toko dan pelanggan)
+- Mengelola produk
+- Mengelola kategori buku
+- Mengelola transaksi dan laporan penjualan
+- Memoderasi konten yang masuk
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 2. Pemilik Toko
+- Mendaftar dan mengelola akun
+- Menambah, mengedit, dan menghapus produk (buku)
+- Mengelola stok produk
+- Melihat dan mengelola pesanan dari pelanggan
+- Melihat laporan penjualan toko mereka
+- Melihat penghasilan dan melakukan penarikan dana
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 3. Pelanggan
+- Mendaftar dan mengelola akun
+- Melihat dan mencari produk (buku)
+- Menambahkan produk ke keranjang belanja
+- Melakukan checkout dan pembayaran
+- Melihat riwayat pembelian dan status pesanan
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 3. Fitur Utama
+### 1. Registrasi dan Autentikasi
+- Sistem registrasi dan login untuk admin, pemilik toko, dan pelanggan
+- Reset password
 
-## Learning Laravel
+### 2. Manajemen Produk
+- Admin dan pemilik toko dapat menambah, mengedit, dan menghapus produk
+- Fitur upload gambar produk
+- Kategori produk
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 3. Manajemen Pengguna
+- Admin dapat melihat, mengedit, dan menghapus akun pengguna
+- Pemilik toko dan pelanggan dapat mengelola profil mereka
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 4. Transaksi
+- Pelanggan dapat menambah produk ke keranjang dan melakukan checkout
+- Sistem pembayaran (misalnya integrasi dengan payment gateway)
+- Konfirmasi pesanan dan pemberitahuan status
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 5. Dashboard
+- Admin memiliki dashboard untuk melihat statistik pengguna, produk, dan penjualan
+- Pemilik toko memiliki dashboard untuk melihat statistik penjualan dan penghasilan toko mereka
+- Fitur penarikan dana bagi pemilik toko
 
-## Laravel Sponsors
+### 6. Search dan Filter
+- Pelanggan dapat mencari produk berdasarkan nama, kategori, atau filter lainnya
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 7. Notifikasi
+- Notifikasi email untuk konfirmasi pendaftaran, pemesanan, dan update status pesanan
 
-### Premium Partners
+### 8. Review dan Rating
+- Pelanggan dapat memberikan review dan rating pada produk yang dibeli
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## 4. Struktur Database (HighLevel)
+### 1. Users
+- id, name, email, password, profile_details, created_at, updated_at
 
-## Contributing
+### 2. Roles
+- id, role_name (admin, store owner, customer), description
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. User_Roles
+- user_id (foreign key to Users), role_id (foreign key to Roles)
 
-## Code of Conduct
+### 4. Stores
+- id, user_id (foreign key to Users), store_name, store_details
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 5. Products
+- id, store_id (foreign key to Stores), name, description, price, stock, category_id (foreign key to Categories), images
 
-## Security Vulnerabilities
+### 6. Categories
+- id, name
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 7. Orders
+- id, user_id (foreign key to Users), total_amount, status, created_at, updated_at
 
-## License
+### 8. Order_Items
+- id, order_id (foreign key to Orders), product_id (foreign key to Products), quantity, price
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 9. Reviews
+- id, product_id (foreign key to Products), user_id (foreign key to Users), rating, comment, created_at
+
+### 10. Withdrawals
+- id, store_id (foreign key to Stores), amount, status, created_at, updated_at
+
+### 11. Earnings
+- id, store_id (foreign key to Stores), total_earnings, available_for_withdrawal, pending_withdrawal, created_at, updated_at
+
+## 5. User Flow
+### 1. Admin
+- Login ke dashboard admin
+- Melihat statistik pengguna dan transaksi
+- Mengelola pengguna (menambah, mengedit, menghapus)
+- Mengelola produk dan kategori
+- Mengelola laporan penjualan
+- Menyetujui atau menolak permintaan penarikan dana dari pemilik toko
+
+### 2. Pemilik Toko
+- Registrasi dan login
+- Membuat dan mengelola toko mereka
+- Menambah dan mengelola produk
+- Melihat dan mengelola pesanan masuk
+- Melihat laporan penjualan dan penghasilan toko mereka
+- Mengajukan permintaan penarikan dana
+
+### 3. Pelanggan
+- Registrasi dan login
+- Menjelajah dan mencari produk
+- Menambah produk ke keranjang
+- Melakukan checkout dan pembayaran
+- Melihat riwayat pembelian dan status pesanan
+
+## 6. Teknologi yang Digunakan
+- Backend: Laravel
+- Frontend: Next.js
+- Database: MySQL/PostgreSQL
+- Autentikasi: Laravel Passport/Sanctum
+- Payment Gateway: Stripe, Midtrans, atau lainnya
+- Perhitungan Ongkir: Raja Ongkir
+- Deployment: AWS, DigitalOcean, atau layanan cloud lainnya
+
+## Penutup
+Dengan konsep ini, aplikasi marketplace mencakup fitur tambahan yang memungkinkan pelanggan untuk melakukan checkout, serta pemilik toko untuk melihat penghasilan dan melakukan penarikan dana. Struktur database yang diperbarui memastikan bahwa semua informasi terkait peran pengguna, produk, transaksi, dan penarikan dana dikelola dengan baik. Fokus pada MVP tetap dipertahankan untuk memastikan fitur inti berfungsi dengan baik dan siap untuk diuji di pasar.
