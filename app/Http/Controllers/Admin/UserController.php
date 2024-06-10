@@ -32,24 +32,26 @@ class UserController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
-            'role_id' => 'required|exists:roles,id'
-        ]);
+{
+    $data = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|string|min:8|confirmed',
+        'role_id' => 'required|exists:roles,id'
+    ]);
 
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+    // Menggunakan create untuk membuat user baru
+    $user = User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => bcrypt($data['password']),
+    ]);
 
-        $user->roles()->attach($data['role_id']);
+    // Menambahkan role ke user yang baru dibuat
+    $user->roles()->attach($data['role_id']);
 
-        return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
-    }
+    return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
+}
 
     public function edit(User $user)
     {
@@ -58,25 +60,25 @@ class UserController extends Controller
     }
 
     public function update(Request $request, User $user)
-    {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'role_id' => 'required|exists:roles,id'
-        ]);
+{
+    $data = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $user->id,
+        'password' => 'nullable|string|min:8|confirmed',
+        'role_id' => 'required|exists:roles,id'
+    ]);
 
-        $user->update([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => $data['password'] ? bcrypt($data['password']) : $user->password,
-        ]);
+    $user->update([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => $data['password'] ? bcrypt($data['password']) : $user->password,
+    ]);
 
-        $user->roles()->sync([$data['role_id']]);
+    // Menggunakan sync untuk mengatur peran
+    $user->roles()->sync([$data['role_id']]); // Menggunakan role_id
 
-        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
-    }
-
+    return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
+}
     public function destroy(User $user)
     {
         $user->delete();

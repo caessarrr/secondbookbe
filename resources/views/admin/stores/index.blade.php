@@ -21,7 +21,7 @@
                 <tbody>
                     @foreach ($stores as $store)
                         <tr>
-                            <td>{{ optional($store->seller)->name }}</td>
+                            <td>{{ $store->name }}</td>
                             <td>{{ $store->description }}</td>
                             <td>{{ $store->location }}</td>
                             <td>{{ $store->contact }}</td>

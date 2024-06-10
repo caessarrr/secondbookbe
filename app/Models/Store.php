@@ -14,6 +14,14 @@ class Store extends Model
         'description',
         'location',
         'contact',
-        // Tambahkan kolom lainnya sesuai kebutuhan
+        'user_id', // Pastikan kolom 'user_id' ada di sini
     ];
+
+    // Definisikan hubungan dengan User
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
+
+

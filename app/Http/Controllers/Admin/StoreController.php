@@ -1,5 +1,6 @@
 <?php
 
+// StoreController.php
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -16,13 +17,14 @@ class StoreController extends Controller
     }
 
     public function create()
-{
-    // Ambil semua pengguna yang memiliki peran seller
-    $sellers = User::where('role', 'seller')->get();
+    {
+        // Ambil semua pengguna yang memiliki peran seller
+        $sellers = User::whereHas('roles', function ($query) {
+            $query->where('role_name', 'seller');
+        })->get();
 
-    return view('admin.stores.create', compact('sellers'));
-}
-
+        return view('admin.stores.create', compact('sellers'));
+    }
 
     public function store(Request $request)
     {
@@ -34,7 +36,10 @@ class StoreController extends Controller
             'seller_id' => 'required|exists:users,id',
         ]);
 
-        Store::create($request->all());
+        $data = $request->all();
+        $data['user_id'] = $request->seller_id;
+
+        Store::create($data);
 
         return redirect()->route('admin.stores.index')->with('success', 'Store created successfully.');
     }
