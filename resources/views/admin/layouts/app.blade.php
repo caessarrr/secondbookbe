@@ -13,24 +13,31 @@
     <header>
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Admin Panel</a>
+            <a class="navbar-brand" href="{{ route('admin.dashboard') }}">Admin Panel</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Dashboard</a>
+                    <li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Users</a>
+                    <li class="nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.users.index') }}">Users</a>
+                    </li>
+                    <li class="nav-item {{ request()->routeIs('admin.stores.*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.stores.index') }}">Stores</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Settings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
+                        <form action="{{ route('admin.logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-link nav-link">Logout</button>
+                        </form>
                     </li>
+                    
                 </ul>
             </div>
         </nav>

@@ -36,4 +36,10 @@ class LoginController extends Controller
     return redirect()->back()->withErrors(['email' => 'Email atau password salah']);
 }
 
+public function logout()
+{
+    Auth::logout();
+    return redirect()->route('admin.login');
+}
+
 }

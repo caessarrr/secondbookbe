@@ -3,45 +3,33 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StoreController;
-
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\Admin\Auth\LoginController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('/admin/login', 'App\Http\Controllers\Admin\Auth\LoginController@showLoginForm')->name('admin.login');
-Route::post('/admin/login', 'App\Http\Controllers\Admin\Auth\LoginController@login')->name('admin.login.submit');
-
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard.index');
-})->name('admin.dashboard');
-
-
 Route::prefix('admin')->name('admin.')->group(function() {
+    // Authentication routes
+    Route::get('login', 'App\Http\Controllers\Admin\Auth\LoginController@showLoginForm')->name('login');
+    Route::post('login', 'App\Http\Controllers\Admin\Auth\LoginController@login')->name('login.submit');
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout'); // Perbaikan ini
+
+    // Dashboard route
+    Route::get('dashboard', function () {
+        return view('admin.dashboard.index');
+    })->name('dashboard');
+
+    // User management routes
     Route::resource('users', UserController::class);
+
+    // Store management routes
+    Route::prefix('stores')->name('stores.')->group(function () {
+        Route::get('/', [StoreController::class, 'index'])->name('index');
+        Route::get('create', [StoreController::class, 'create'])->name('create');
+        Route::post('/', [StoreController::class, 'store'])->name('store');
+        Route::get('{store}/edit', [StoreController::class, 'edit'])->name('edit');
+        Route::put('{store}', [StoreController::class, 'update'])->name('update');
+        Route::delete('{store}', [StoreController::class, 'destroy'])->name('destroy');
+    });
 });
-
-
-
-Route::prefix('admin')->name('admin.')->group(function () {
-    // Routes for managing stores
-    Route::get('stores', [StoreController::class, 'index'])->name('stores.index');
-    Route::get('stores/create', [StoreController::class, 'create'])->name('stores.create');
-    Route::post('stores', [StoreController::class, 'store'])->name('stores.store');
-    Route::get('stores/{store}/edit', [StoreController::class, 'edit'])->name('stores.edit');
-    Route::put('stores/{store}', [StoreController::class, 'update'])->name('stores.update');
-    Route::delete('stores/{store}', [StoreController::class, 'destroy'])->name('stores.destroy');
-});
-
