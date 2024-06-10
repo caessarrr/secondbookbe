@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\StoreController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +32,16 @@ Route::get('/admin/dashboard', function () {
 Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('users', UserController::class);
 });
+
+
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Routes for managing stores
+    Route::get('stores', [StoreController::class, 'index'])->name('stores.index');
+    Route::get('stores/create', [StoreController::class, 'create'])->name('stores.create');
+    Route::post('stores', [StoreController::class, 'store'])->name('stores.store');
+    Route::get('stores/{store}/edit', [StoreController::class, 'edit'])->name('stores.edit');
+    Route::put('stores/{store}', [StoreController::class, 'update'])->name('stores.update');
+    Route::delete('stores/{store}', [StoreController::class, 'destroy'])->name('stores.destroy');
+});
+
