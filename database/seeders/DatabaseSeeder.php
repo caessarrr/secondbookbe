@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\UserRole;
 use Database\Seeders\AdminSeeder;
+use Database\Seeders\RoleSeeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -17,6 +18,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            RoleSeeder::class,
             AdminSeeder::class,
             // Tambahkan seeder lainnya di sini jika ada
         ]);

@@ -1,7 +1,6 @@
 <?php
 
-// database/seeders/AdminSeeder.php
-
+// AdminSeeder.php
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -11,27 +10,25 @@ use App\Models\UserRole;
 
 class AdminSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        // Membuat data admin
-        $admin = User::create([
-            'name' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'), // Ganti 'password' dengan password yang diinginkan
-        ]);
+        // Cek apakah admin sudah ada
+        if (User::where('email', 'admin@example.com')->doesntExist()) {
+            // Membuat data admin jika belum ada
+            $admin = User::create([
+                'name' => 'Admin',
+                'email' => 'admin@example.com',
+                'password' => 'password', // Tidak perlu menggunakan bcrypt di sini
+            ]);
 
-        // Membuat role admin jika belum ada
-        $adminRole = Role::firstOrCreate(['role_name' => 'admin'], ['description' => 'Administrator']);
+            // Mendapatkan role admin
+            $adminRole = Role::where('role_name', 'admin')->first();
 
-        // Menambahkan role admin ke user yang baru dibuat
-        UserRole::create([
-            'user_id' => $admin->id,
-            'role_id' => $adminRole->id,
-        ]);
+            // Menambahkan role admin ke user yang baru dibuat
+            UserRole::create([
+                'user_id' => $admin->id,
+                'role_id' => $adminRole->id,
+            ]);
+        }
     }
 }

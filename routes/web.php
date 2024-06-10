@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,8 @@ Route::post('/admin/login', 'App\Http\Controllers\Admin\Auth\LoginController@log
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard.index');
 })->name('admin.dashboard');
+
+
+Route::prefix('admin')->name('admin.')->group(function() {
+    Route::resource('users', UserController::class);
+});

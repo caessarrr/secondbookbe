@@ -6,7 +6,7 @@
     <title>Wellcome</title>
 </head>
 <body>
-    <h1>Selamat datang mas hanafi</h1>
+    <h1>Selamat datang</h1>
     <p>list API</p>
 </body>
 </html>
