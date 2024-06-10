@@ -9,10 +9,20 @@ use App\Models\Role;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('roles')->get();
-        return view('admin.users.index', compact('users'));
+        $role_id = $request->input('role_id');
+        $roles = Role::all();
+
+        if ($role_id) {
+            $users = User::whereHas('roles', function ($query) use ($role_id) {
+                $query->where('role_id', $role_id);
+            })->with('roles')->get();
+        } else {
+            $users = User::with('roles')->get();
+        }
+
+        return view('admin.users.index', compact('users', 'roles', 'role_id'));
     }
 
     public function create()
